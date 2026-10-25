@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PreTechVault | Premium Laptops & Workstations</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("e-ske6UVutZEb9OEx"); // یہاں اپنی Public Key لگائیں
+   })();
+</script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container navbar">
+      <a href="#" class="logo" onclick="switchPage('home')">
+  <i class="fa-solid fa-laptop-code"></i> PreTech<span>Vault</span>
+</a>
+
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="globalSearch" placeholder="Search 50+ laptops, specs, brands..." onkeyup="handleGlobalSearch(event)">
+      </div>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-link active" onclick="switchPage('home')">Home</a>
+        <a href="#shop" class="nav-link" onclick="switchPage('shop')">Laptops</a>
+        <a href="#about" class="nav-link" onclick="switchPage('about')">About Us</a>
+        <a href="#contact" class="nav-link" onclick="switchPage('contact')">Contact Us</a>
+        <a href="#privacy" class="nav-link" onclick="switchPage('privacy')">Privacy Policy</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn" onclick="toggleCart()">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="mobile-toggle" id="mobileToggle" onclick="toggleMobileNav()">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <section id="home-page" class="page-view active">
+      <div class="hero">
+        <div class="container hero-content">
+          <div class="hero-text">
+            <span class="badge">Next-Gen Performance</span>
+            <h1>Unleash Extreme Computing Power</h1>
+            <p>Explore over 50 top-tier laptops from Apple, Dell, Lenovo, ASUS, and HP. Engineered for developers, gamers, and creators.</p>
+            <div class="hero-cta">
+              <button class="btn btn-primary" onclick="switchPage('shop')">Shop All Laptops</button>
+              <button class="btn btn-secondary" onclick="filterByBrand('Apple')">Explore MacBooks</button>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80" alt="Hero Laptop">
+          </div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <h2 class="section-title">Popular Categories</h2>
+        <div class="categories-grid">
+          <div class="category-card" onclick="filterByCategory('Processor', 'Apple M3')">
+            <i class="fa-brands fa-apple"></i>
+            <h3>Apple Silicon</h3>
+            <p>M1, M2, M3 Series</p>
+          </div>
+          <div class="category-card" onclick="filterByCategory('RAM', '32GB')">
+            <i class="fa-solid fa-microchip"></i>
+            <h3>32GB Workstations</h3>
+            <p>For Heavy Multitasking</p>
+          </div>
+          <div class="category-card" onclick="filterByCategory('Processor', 'Intel Core i9')">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Intel Core i9</h3>
+            <p>Maximum Raw Power</p>
+          </div>
+          <div class="category-card" onclick="filterByCategory('Processor', 'AMD Ryzen 9')">
+            <i class="fa-solid fa-gamepad"></i>
+            <h3>Ryzen Gaming</h3>
+            <p>High FPS & Efficiency</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <div class="section-header">
+          <h2 class="section-title">Featured Machines</h2>
+          <a href="#" class="view-all" onclick="switchPage('shop')">View All (50+) &rarr;</a>
+        </div>
+        <div class="product-grid" id="featuredGrid"></div>
+      </div>
+
+      <div class="container section">
+        <h2 class="section-title">What Tech Leaders Say</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p>"PreTechVault provided our engineering team with 15 custom ThinkPads. Flawless service and delivery."</p>
+            <h4>— Sarah Jenkins, CTO at CloudScale</h4>
+          </div>
+          <div class="testimonial-card">
+            <p>"The best pricing on M3 Max MacBooks I've found anywhere. Dynamic checkout made ordering seamless."</p>
+            <h4>— David Chen, Lead iOS Developer</h4>
+          </div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <div class="newsletter-box">
+          <h2>Stay Ahead of the Tech Curve</h2>
+          <p>Subscribe for exclusive drops, flash discounts, and hardware restock notifications.</p>
+          <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+            <input type="email" placeholder="Enter your business email" required>
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="shop-page" class="page-view">
+      <div class="container shop-layout">
+        
+        <aside class="shop-sidebar">
+          <div class="filter-header">
+            <h3><i class="fa-solid fa-sliders"></i> Filter Laptops</h3>
+            <button class="btn-text" onclick="resetFilters()">Reset All</button>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterSearch">Search Name / Model</label>
+            <input type="text" id="filterSearch" placeholder="e.g. XPS, MacBook, Legion..." oninput="applyFilters()">
+          </div>
+
+          <div class="filter-group">
+            <label for="filterBrand">Brand</label>
+            <select id="filterBrand" onchange="applyFilters()">
+              <option value="All">All Brands</option>
+              <option value="Apple">Apple</option>
+              <option value="Dell">Dell</option>
+              <option value="Lenovo">Lenovo</option>
+              <option value="ASUS">ASUS</option>
+              <option value="HP">HP</option>
+              <option value="MSI">MSI</option>
+              <option value="Razer">Razer</option>
+              <option value="Acer">Acer</option>
+              <option value="Microsoft">Microsoft</option>
+              <option value="Samsung">Samsung</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterProcessor">Processor Family</label>
+            <select id="filterProcessor" onchange="applyFilters()">
+              <option value="All">All Processors</option>
+              <option value="Apple M1">Apple M1</option>
+              <option value="Apple M2">Apple M2</option>
+              <option value="Apple M3">Apple M3</option>
+              <option value="Intel Core i5">Intel Core i5</option>
+              <option value="Intel Core i7">Intel Core i7</option>
+              <option value="Intel Core i9">Intel Core i9</option>
+              <option value="AMD Ryzen 5">AMD Ryzen 5</option>
+              <option value="AMD Ryzen 7">AMD Ryzen 7</option>
+              <option value="AMD Ryzen 9">AMD Ryzen 9</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterRAM">System RAM</label>
+            <select id="filterRAM" onchange="applyFilters()">
+              <option value="All">All RAM Sizes</option>
+              <option value="8GB">8GB</option>
+              <option value="16GB">16GB</option>
+              <option value="32GB">32GB</option>
+              <option value="64GB">64GB</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="filterPrice">Max Price: $<span id="priceDisplay">4000</span></label>
+            <input type="range" id="filterPrice" min="500" max="4000" step="100" value="4000" oninput="updatePriceLabel(); applyFilters()">
+          </div>
+        </aside>
+
+        <div class="shop-main">
+          <div class="shop-bar">
+            <span id="productCount">Showing 50 Laptops</span>
+            <div class="sort-wrapper">
+              <label for="sortOrder">Sort By:</label>
+              <select id="sortOrder" onchange="applyFilters()">
+                <option value="default">Featured</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+                <option value="name">Name (A-Z)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="product-grid" id="shopGrid"></div>
+          <div id="noResults" class="no-results hidden">
+            <i class="fa-solid fa-laptop-slash"></i>
+            <h3>No matching laptops found</h3>
+            <p>Try adjusting your search criteria or resetting filters.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="about-page" class="page-view">
+      <div class="container section text-content">
+       <h1>About PreTechVault</h1>
+        <p class="lead">Founded in 2024, PreTechVault is the premier destination for high-performance mobile computing hardware worldwide.</p>
+        
+        <hr class="divider">
+
+        <h2>Engineered for Enterprise & Creators</h2>
+        <p>At TechVault, we curate only elite laptop configurations. Whether you need a high-throughput mobile workstation for AI development, color-accurate screens for 8K video rendering, or ultralight portability for executive travel, our inventory is curated by system architects who understand hardware specs deeply.</p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>50,000+</h3>
+            <p>Laptops Shipped</p>
+          </div>
+          <div class="stat-card">
+            <h3>99.4%</h3>
+            <p>Satisfaction Rate</p>
+          </div>
+          <div class="stat-card">
+            <h3>24/7</h3>
+            <p>Expert Support</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <section id="contact-page" class="page-view">
+      <div class="container section">
+        <div class="contact-wrapper">
+          <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>Hi, I'm Mr. Hamza! Finding the right laptop can be confusing. Whether you need a machine for heavy gaming, programming, or just everyday work, feel free to reach out. I'm here to help you make the best choice.</p>
+            <div class="info-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <div>
+                <strong>Location</strong>
+                <p>Digital Affiliate Store (Amazon Partner)</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fa-solid fa-envelope"></i>
+              <div>
+                <strong>Email Me</strong>
+                <p>hsa.official.pk@gmail.com</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fa-solid fa-phone"></i>
+              <div>
+                <strong>WhatsApp / Phone</strong>
+                <p>+92 309 2963379</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Netlify Form Attributes Added Below -->
+          <form class="contact-form" id="contactForm" name="contact" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="contact" />
+            
+            <h2>Send a Message</h2>
+            <div id="contactAlert" class="alert hidden"></div>
+            
+            <div class="form-group">
+              <label for="cName">Your Name</label>
+              <input type="text" id="cName" name="name" required placeholder="Ali / John...">
+            </div>
+
+            <div class="form-group">
+              <label for="cEmail">Your Email</label>
+              <input type="email" id="cEmail" name="email" required placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+              <label for="cMessage">How can I help you?</label>
+              <textarea id="cMessage" name="message" rows="5" required placeholder="I need a laptop for video editing under $1000..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+   <section id="privacy-page" class="page-view">
+      <div class="container section text-content">
+        <h1>Privacy Policy</h1>
+        <p class="updated-date">Last Updated: September 2026</p>
+
+        <h2>1. Keep It Simple</h2>
+        <p>At PreTechVault, we believe in keeping things simple and transparent. The only personal information we collect is what you voluntarily share with us through our contact form (like your name and email) so we can respond to your questions.</p>
+
+        <h2>2. Amazon Affiliate Links & Purchasing</h2>
+        <p>My goal is to help you find the best laptops available. When you click to buy a product, you will be securely redirected to Amazon to complete your purchase. Because of this, we never ask for, process, or store your credit card or payment information on our website.</p>
+
+        <h2>3. Your Data is Safe</h2>
+        <p>I respect your privacy. Any message you send goes directly to me, and I promise never to share, rent, or sell your personal contact details to any third-party marketers.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Your Hardware Cart (<span id="cartCount">0</span>)</h3>
+      <button class="close-btn" onclick="toggleCart()">&times;</button>
+    </div>
+
+    <div class="cart-body" id="cartItemsContainer">
+      </div>
+
+    <div class="cart-footer">
+      <div class="cart-summary-line">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">$0.00</span>
+      </div>
+      <div class="cart-summary-line">
+        <span>Estimated Tax (8%)</span>
+        <span id="cartTax">$0.00</span>
+      </div>
+      <div class="cart-summary-line total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="checkout()">Proceed to Secure Checkout</button>
+    </div>
+  </aside>
+
+  <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+      <div class="modal-grid" id="modalContent">
+        </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="#" class="logo" onclick="switchPage('home')">
+  <i class="fa-solid fa-laptop-code"></i> PreTech<span>Vault</span>
+</a>
+        <p>Your premier worldwide distributor of enterprise workstations, high-tier ultrabooks, and custom mobile computing systems.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#home" onclick="switchPage('home')">Home</a></li>
+          <li><a href="#shop" onclick="switchPage('shop')">Shop Laptops</a></li>
+          <li><a href="#about" onclick="switchPage('about')">About Us</a></li>
+          <li><a href="#contact" onclick="switchPage('contact')">Contact Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#privacy" onclick="switchPage('privacy')">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Hardware Warranty</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-github"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 PreTechVault Systems Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
